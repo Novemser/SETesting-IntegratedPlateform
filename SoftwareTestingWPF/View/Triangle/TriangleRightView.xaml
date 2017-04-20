@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="SoftwareTestingWPF.View.Triangle.TriangleRightView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SoftwareTestingWPF.View.Triangle"
+             xmlns:canander="clr-namespace:SoftwareTestingWPF.View.Canander"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="500">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <canander:CaseCountControl x:Name="CaseCountControl"></canander:CaseCountControl>
+        <canander:DefactPercentControl Grid.Row="1" x:Name="DefactPercentControl" Grid.Column="0"></canander:DefactPercentControl>
+        <Button Command="{Binding BatchDeterTri}" Grid.Row="2" Content="选择测试文件" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+    </Grid>
+</UserControl>

@@ -35,28 +35,35 @@ namespace SoftwareTestingWPF.View.Canander
             _passedValues = new ChartValues<double>();
             _failedValues = new ChartValues<double>();
 
+            Brush b1 = new SolidColorBrush(Color.FromRgb(02,0xa8,0xf3));
+            Brush b2 = new SolidColorBrush(Color.FromRgb(65,0xc1,78));
+            Brush b3 = new SolidColorBrush(Color.FromRgb(0xF4, 0x43, 0x36));
+
             SeriesCollection = new SeriesCollection
             {
                 new RowSeries
                 {
                     Title = "测试用例总数量",
-                    Values = _totalValues
+                    Values = _totalValues,
+                    Fill = b1
                 },
                 new RowSeries
                 {
                     Title = "通过用例数量",
-                    Values = _passedValues
+                    Values = _passedValues,
+                    Fill = b2
                 },
                 new RowSeries
                 {
                     Title = "未通过用例数量",
-                    Values = _failedValues
+                    Values = _failedValues,
+                    Fill = b3
                 }
             };
 
             DataContext = this;
         }
-        
+
         private ChartValues<double> _totalValues;
         private ChartValues<double> _passedValues;
         private ChartValues<double> _failedValues;

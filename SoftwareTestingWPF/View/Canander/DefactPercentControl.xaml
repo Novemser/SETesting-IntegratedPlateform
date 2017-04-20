@@ -10,8 +10,8 @@
     <Grid>
         <wpf:PieChart LegendLocation="Bottom">
             <wpf:PieChart.Series>
-                <wpf:PieSeries Title="通过" Values="{Binding Passed}" DataLabels="True" />
-                <wpf:PieSeries Title="未通过" Values="{Binding Failed}" DataLabels="True"/>
+                <wpf:PieSeries Title="通过" Fill="#65c178" Values="{Binding Passed}" DataLabels="True" />
+                <wpf:PieSeries Title="未通过" Fill="#F44336" Values="{Binding Failed}" DataLabels="True"/>
             </wpf:PieChart.Series>
         </wpf:PieChart>
     </Grid>

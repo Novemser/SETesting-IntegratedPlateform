@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftwareTestingWPF.Base
 {
-    public class DateParser
+    public class GeneralParser
     {
         public static List<object> ParseDate(string dateStr)
         {
@@ -31,5 +31,15 @@ namespace SoftwareTestingWPF.Base
 
             return result;
         }
+
+        //public static string GoToWest()
+        //{
+            
+        //}
+        public static string ParseTriangle(double csvMapperA, double csvMapperB, double csvMapperC, Func<double,double,double,string> funAction)
+        {
+            return funAction(csvMapperA, csvMapperB, csvMapperC);
+        }
     }
+
 }

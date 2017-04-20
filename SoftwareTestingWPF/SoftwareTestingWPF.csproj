@@ -97,12 +97,13 @@
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Base\AppBootstrapper.cs" />
-    <Compile Include="Base\DateParser.cs" />
+    <Compile Include="Base\GeneralParser.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="Base\UIHelper.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Mappers\ComputerMapper.cs" />
     <Compile Include="Mappers\DateMapper.cs" />
+    <Compile Include="Mappers\TriangleMapper.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -110,6 +111,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="TriangleTabLayout.xaml.cs">
+      <DependentUpon>TriangleTabLayout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\Canander\CalanderLeftView.xaml.cs">
@@ -132,6 +136,12 @@
     </Compile>
     <Compile Include="View\Computer\ComputerRightView.xaml.cs">
       <DependentUpon>ComputerRightView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Triangle\TriangleLeftView.xaml.cs">
+      <DependentUpon>TriangleLeftView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Triangle\TriangleRightView.xaml.cs">
+      <DependentUpon>TriangleRightView.xaml</DependentUpon>
     </Compile>
     <Page Include="CalanderTabLayout.xaml">
       <SubType>Designer</SubType>
@@ -160,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TriangleTabLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Canander\CalanderLeftView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -185,6 +199,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Computer\ComputerRightView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Triangle\TriangleLeftView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Triangle\TriangleRightView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

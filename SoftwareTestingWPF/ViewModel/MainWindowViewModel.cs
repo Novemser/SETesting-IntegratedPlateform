@@ -36,7 +36,166 @@ namespace SoftwareTestingWPF
 
         public ICommand CalculateTotalSaleCommand
         {
-            get { return new RelayCommand(CalculateTotal, CanDo);}
+            get { return new RelayCommand(CalculateTotal, CanDo); }
+        }
+
+        public ICommand ParseTriangleCommand
+        {
+            get { return new RelayCommand(ParseTriangle, CanDo); }
+        }
+
+        public ICommand BatchDeterTri
+        {
+            get { return new RelayCommand(BatchDeterTriFun, CanDo); }
+        }
+
+        public void BatchDeterTriFun(object sender)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.DefaultExt = ".csv";
+            fileDialog.Filter = "csv file|*.csv";
+            if (fileDialog.ShowDialog() == true)
+            {
+                CountControl = UIHelper.FindChild<CaseCountControl>(Application.Current.MainWindow, "CaseCountControl");
+                DefactPercentControl = UIHelper.FindChild<DefactPercentControl>(Application.Current.MainWindow,
+                    "DefactPercentControl");
+
+                var dataList = FileUtils<TriangleMapper>.ReadDateList(fileDialog.FileName);
+                if (null != dataList)
+                {
+                    CountControl.SetTotal(dataList.Count);
+                    int trueCnt = 0, falseCnt = 0;
+
+                    foreach (var csvMapper in dataList)
+                    {
+                        var parseResult = GeneralParser.ParseTriangle(csvMapper.A, csvMapper.B, csvMapper.C, GetParseTriangleStr);
+                        csvMapper.Result = parseResult;
+
+                        if (parseResult.Equals("不能构成三角形."))
+                        {
+                            csvMapper.Exception = "不能构成三角形.";
+                        }
+
+                        if (parseResult.Equals(csvMapper.Expected))
+                        {
+                            csvMapper.IsCorrect = "true";
+                            trueCnt++;
+
+                        }
+                        else
+                        {
+                            csvMapper.IsCorrect = "false";
+                            falseCnt++;
+
+                        }
+
+
+                    }
+                    CountControl.SetPassed(trueCnt);
+                    CountControl.SetFailed(falseCnt);
+                    //WriteResult(dataList);
+                    FileUtils<TriangleMapper>.WriteResult(dataList, "r3.csv");
+                    DefactPercentControl.SetValues(trueCnt, falseCnt);
+                }
+            }
+        }
+
+        private double _aLen, _bLen, _cLen;
+
+        public double ALen
+        {
+            get { return _aLen; }
+            set
+            {
+                _aLen = value;
+                NotifyOfPropertyChange(nameof(ALen));
+            }
+        }
+        public double BLen
+        {
+            get { return _bLen; }
+            set
+            {
+                _bLen = value;
+                NotifyOfPropertyChange(nameof(BLen));
+            }
+        }
+        public double CLen
+        {
+            get { return _cLen; }
+            set
+            {
+                _cLen = value;
+                NotifyOfPropertyChange(nameof(CLen));
+            }
+        }
+
+        public void ParseTriangle(object sender)
+        {
+            double a, b, c;
+            a = ALen;
+            b = BLen;
+            c = CLen;
+            TriangleShowResult = GetParseTriangleStr(a, b, c);
+        }
+
+        private string _triangleShowResult;
+        public string TriangleShowResult
+        {
+            get { return _triangleShowResult; }
+            set
+            {
+                _triangleShowResult = value;
+                NotifyOfPropertyChange(nameof(TriangleShowResult));
+            }
+        }
+
+        private string GetParseTriangleStr(double a, double b, double c)
+        {
+            string res = "";
+            if (a > 0 && b > 0 && c > 0)
+            {
+
+                if (a + b > c && a + c > b && b + c > a)
+                {
+                    if (a * a + b * b == c * c || a * a + c * c == b * b
+                            || b * b + c * c == a * a)
+                    {
+                        if (a == b || a == c || b == c)
+                        {
+                            res = "为等腰直角三角形.";
+                        }
+                        else
+                        {
+                            res = "一般直角三角形.";
+                        }
+                    }
+                    else if (a == b && b == c && a == c)
+                    {
+                        res = "为等边三角形.";
+
+                    }
+                    else if ((a == b && a != c) || (a == c && a != b)
+                          || (b == c && a != c))
+                    {
+                        res = "为等腰三角形.";
+                    }
+                    else
+                    {
+                        res = "为一般三角形.";
+                    }
+                }
+                else
+                {
+                    res = "不能构成三角形.";
+                }
+
+            }
+            else
+            {
+                res = "不能构成三角形.";
+            }
+            return res;
         }
 
         public bool CanDo()
@@ -108,7 +267,7 @@ namespace SoftwareTestingWPF
 
         public MainWindowViewModel()
         {
-            
+
         }
         public CaseCountControl CountControl { get; set; }
         public DefactPercentControl DefactPercentControl { get; set; }
@@ -167,7 +326,7 @@ namespace SoftwareTestingWPF
 
                 CountControl = UIHelper.FindChild<CaseCountControl>(Application.Current.MainWindow, "CaseCountControl");
                 DefactPercentControl = UIHelper.FindChild<DefactPercentControl>(Application.Current.MainWindow, "DefactPercentControl");
-                
+
                 var dataList = FileUtils<DateMapper>.ReadDateList(fileDialog.FileName);
                 if (null != dataList)
                 {
@@ -176,7 +335,7 @@ namespace SoftwareTestingWPF
 
                     foreach (var csvMapper in dataList)
                     {
-                        var parseResult = DateParser.ParseDate(csvMapper.DateStr);
+                        var parseResult = GeneralParser.ParseDate(csvMapper.DateStr);
                         if (parseResult[0].Equals(true))
                         {
                             csvMapper.Result = parseResult[1] as string;

@@ -11,6 +11,8 @@
         <mui:ModernTab Layout="List" SelectedSource="ComputerTabView.xaml" Margin="0,8">
             <mui:ModernTab.Links>
                 <!-- TODO: set @Source -->
+                <mui:Link DisplayName="三角形判断" Source="TriangleTabLayout.xaml"/>
+
                 <mui:Link DisplayName="万年历" Source="CalanderTabLayout.xaml"/>
                 <mui:Link DisplayName="配件销售" Source="ComputerTabView.xaml"/>
             </mui:ModernTab.Links>
