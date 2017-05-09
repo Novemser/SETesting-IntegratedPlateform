@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Caliburn.Micro;
+using CsvHelper.Configuration;
 using Microsoft.Win32;
 using SoftwareTestingWPF.Base;
 using SoftwareTestingWPF.Mappers;
@@ -24,6 +25,120 @@ namespace SoftwareTestingWPF
             {
                 return new RelayCommand(ParseDateManually, CanDoParse);
             }
+        }
+
+        public ICommand BatchCalculateBabyBreakCommand
+        {
+            get
+            {
+                return new RelayCommand(BatchCalculateBabyBreak, CanDoParse);
+            }
+        }
+
+        void BatchCalculateBabyBreak(object sender)
+        {
+            var filePath = GetInputCurWindowFilePath();
+            if (null == filePath) return;
+            InitReportVisuals();
+            var dataList = FileUtils<BabyBreakCSV>.ReadDateList(filePath);
+            if (null != dataList)
+            {
+                CountControl.SetTotal(dataList.Count);
+                int trueCnt = 0, falseCnt = 0;
+
+                foreach (var babyBreakCsv in dataList)
+                {
+                    var cnt = GetBabyBreakCount(
+                        babyBreakCsv.is_woman,
+                        babyBreakCsv.late_marriage,
+                        babyBreakCsv.late_birth,
+                        babyBreakCsv.less_7_month,
+                        babyBreakCsv.dystocia,
+                        babyBreakCsv.less_30_day
+                    );
+
+                    babyBreakCsv.Result = cnt.ToString();
+
+                    if (cnt == babyBreakCsv.result_day)
+                    {
+                        trueCnt++;
+                        babyBreakCsv.IsCorrect = "True";
+                    }
+                    else
+                    {
+                        falseCnt++;
+                        babyBreakCsv.IsCorrect = "False";
+                    }
+                    
+                }
+                CountControl.SetPassed(trueCnt);
+                CountControl.SetFailed(falseCnt);
+                //WriteResult(dataList);
+                FileUtils<BabyBreakCSV>.WriteResult(dataList, "rBabyBreaks.csv");
+                DefactPercentControl.SetValues(trueCnt, falseCnt);
+            }
+        }
+
+        int GetBabyBreakCount(
+            bool female,
+            bool lateMar,
+            bool lateBreed,
+            bool less7,
+            bool dystocia,
+            bool less30
+        )
+        {
+            int normal = 90;
+            int smallBreed = 0;
+            int dystociaDay = 15;
+            int late = 30;
+            int accompany = 7;
+            int total = 0;
+
+            if (female)
+            {
+                total += normal;
+                if (less7)
+                {
+                    return normal;
+                }
+                if (lateBreed && lateMar)
+                {
+                    total += late;
+                }
+                if (dystocia)
+                {
+                    total += dystociaDay;
+                }
+            }
+            else
+            {
+                if (lateBreed && lateMar)
+                {
+                    total += accompany;
+                }
+            }
+            return total;
+        }
+
+        void InitReportVisuals()
+        {
+            CountControl = UIHelper.FindChild<CaseCountControl>(Application.Current.MainWindow, "CaseCountControl");
+            DefactPercentControl = UIHelper.FindChild<DefactPercentControl>(Application.Current.MainWindow,
+                "DefactPercentControl");
+        }
+
+        string GetInputCurWindowFilePath()
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.DefaultExt = ".csv";
+            fileDialog.Filter = "csv file|*.csv";
+            if (fileDialog.ShowDialog() == true)
+            {
+                return fileDialog.FileName;
+            }
+
+            return null;
         }
 
         public ICommand BatchCalculateComputerCommand
@@ -47,6 +162,22 @@ namespace SoftwareTestingWPF
         public ICommand BatchDeterTri
         {
             get { return new RelayCommand(BatchDeterTriFun, CanDo); }
+        }
+
+        public ICommand BatchTelecomCalFunCommand
+        {
+            get { return new RelayCommand(BatchTelecomCalFun, CanDo); }
+        }
+
+        public ICommand ParseTelecomCommand
+        {
+            get { return new RelayCommand(ParseTelecom, CanDo); }
+        }
+
+        public void ParseTelecom(object sender)
+        {
+            double[] res = CalculateTelecomFee(TelecomTotalMin, TelecomTotalTimes);
+            TelecomTotal = res[1];
         }
 
         public void BatchDeterTriFun(object sender)
@@ -95,6 +226,81 @@ namespace SoftwareTestingWPF
                     CountControl.SetFailed(falseCnt);
                     //WriteResult(dataList);
                     FileUtils<TriangleMapper>.WriteResult(dataList, "r3.csv");
+                    DefactPercentControl.SetValues(trueCnt, falseCnt);
+                }
+            }
+        }
+
+        private int _telecomTotalMin;
+        private int _telecomTotalTimes;
+        private double _telecomTotal;
+
+        public int TelecomTotalMin
+        {
+            get { return _telecomTotalMin; }
+            set
+            {
+                _telecomTotalMin = value;
+                NotifyOfPropertyChange(nameof(TelecomTotalMin));
+            }
+        }
+
+        public int TelecomTotalTimes
+        {
+            get { return _telecomTotalTimes; }
+            set
+            {
+                _telecomTotalTimes = value;
+                NotifyOfPropertyChange(nameof(TelecomTotalTimes));
+            }
+        }
+
+        public double TelecomTotal
+        {
+            get { return _telecomTotal; }
+            set
+            {
+                _telecomTotal = value;
+                NotifyOfPropertyChange(nameof(TelecomTotal));
+            }
+        }
+
+        public void BatchTelecomCalFun(object sender)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.DefaultExt = ".csv";
+            fileDialog.Filter = "csv file|*.csv";
+            if (fileDialog.ShowDialog() == true)
+            {
+                CountControl = UIHelper.FindChild<CaseCountControl>(Application.Current.MainWindow, "CaseCountControl");
+                DefactPercentControl = UIHelper.FindChild<DefactPercentControl>(Application.Current.MainWindow,
+                    "DefactPercentControl");
+                var dataList = FileUtils<TelecomMapper>.ReadDateList(fileDialog.FileName);
+                if (null != dataList)
+                {
+                    CountControl.SetTotal(dataList.Count);
+                    int trueCnt = 0, falseCnt = 0;
+
+                    foreach (var csvMapper in dataList)
+                    {
+                        var parseResult = CalculateTelecomFee(csvMapper.minutes, csvMapper.times);
+                        csvMapper.ResultDiscount = parseResult[0].ToString();
+                        csvMapper.ResultFee = parseResult[1].ToString();
+                        if (Math.Abs(double.Parse(csvMapper.ExpectedDiscount) - parseResult[0]) < 1e10 - 3 && Math.Abs(double.Parse(csvMapper.ExpectedFee) - parseResult[1]) < 1e10 - 3)
+                        {
+                            csvMapper.IsCorrect = "True";
+                            trueCnt++;
+                        }
+                        else
+                        {
+                            csvMapper.IsCorrect = "False";
+                            falseCnt++;
+                        }
+                    }
+                    CountControl.SetPassed(trueCnt);
+                    CountControl.SetFailed(falseCnt);
+                    //WriteResult(dataList);
+                    FileUtils<TelecomMapper>.WriteResult(dataList, "rTelecom.csv");
                     DefactPercentControl.SetValues(trueCnt, falseCnt);
                 }
             }
@@ -415,6 +621,72 @@ namespace SoftwareTestingWPF
                 NotifyOfPropertyChange(nameof(TotalSaleVal));
             }
         }
+
+        private double[] discountTable = {
+            0.01, 0.015, 0.02, 0.025, 0.03
+        };
+
+        private double[] CalculateTelecomFee(int callMiniute, int dueTimes)
+        {
+            double[] result = new double[2];
+            result[1] = 25;
+            double preMin = 0.15;
+
+            if (callMiniute < 0 || dueTimes < 0 || callMiniute > 31 * 24 * 60 || dueTimes > 11)
+            {
+                result[0] = -1;
+                result[1] = -1;
+                return result;
+            }
+
+            if (callMiniute <= 60)
+            {
+                //if (dueTimes <= 1)
+                //{
+                //    result[0] = discountTable[0];
+                //    result[1] += callMiniute * preMin * (1 - discountTable[0]);
+                //}
+                //else
+                //{
+                //    result[0] = 0;
+                //    result[1] += callMiniute * preMin;
+                //}
+                CalcTelecom(callMiniute, preMin, 1, dueTimes, 0, result);
+            }
+            else if (callMiniute <= 120)
+            {
+                CalcTelecom(callMiniute, preMin, 2, dueTimes, 1, result);
+            }
+            else if (callMiniute <= 180)
+            {
+                CalcTelecom(callMiniute, preMin, 3, dueTimes, 2, result);
+            }
+            else if (callMiniute <= 300)
+            {
+                CalcTelecom(callMiniute, preMin, 3, dueTimes, 3, result);
+            }
+            else
+            {
+                CalcTelecom(callMiniute, preMin, 6, dueTimes, 4, result);
+            }
+
+            return result;
+        }
+
+        private void CalcTelecom(int callMiniute, double perMin, int dueLimit, int dueTime, int discountIndex, double[] result)
+        {
+            if (dueTime <= dueLimit)
+            {
+                result[0] = discountTable[discountIndex];
+                result[1] += callMiniute * perMin * (1 - discountTable[discountIndex]);
+            }
+            else
+            {
+                result[0] = 0;
+                result[1] += callMiniute * perMin;
+            }
+        }
+
         void ParseDateManually(object parameter)
         {
             TextBox textBox = parameter as TextBox;

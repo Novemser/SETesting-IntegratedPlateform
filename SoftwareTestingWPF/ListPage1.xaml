@@ -12,9 +12,11 @@
             <mui:ModernTab.Links>
                 <!-- TODO: set @Source -->
                 <mui:Link DisplayName="三角形判断" Source="TriangleTabLayout.xaml"/>
-
                 <mui:Link DisplayName="万年历" Source="CalanderTabLayout.xaml"/>
                 <mui:Link DisplayName="配件销售" Source="ComputerTabView.xaml"/>
+                <mui:Link DisplayName="电信缴费" Source="TelecommunicationTabView.xaml"/>
+                <mui:Link DisplayName="产假计算" Source="BabyBreakTabLayout.xaml" />
+                <mui:Link DisplayName="获取生产/销售" Source="ProductProductionTabView.xaml" />
             </mui:ModernTab.Links>
         </mui:ModernTab>
     </Grid>

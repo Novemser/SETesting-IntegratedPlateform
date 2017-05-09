@@ -10,7 +10,7 @@ using CsvHelper.Configuration;
 
 namespace SoftwareTestingWPF.Utils
 {
-    static class FileUtils<T> where T : CsvClassMap
+    static class FileUtils<T> 
     {
         public static string ReadAll(string path)
         {
@@ -39,10 +39,30 @@ namespace SoftwareTestingWPF.Utils
 
         public static List<T> ReadDateList(string path, int colIndex = 0)
         {
-            var fs = new FileStream(path, FileMode.Open);
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(path, FileMode.Open);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show(Application.Current.MainWindow, "文件被占用！", e.Message);
+                return null;
+            }
 
             var csv = new CsvReader(new StreamReader(fs, Encoding.Default));
-            var result = csv.GetRecords<T>().ToList();
+
+            List<T> result = null;
+            try
+            {
+                result = csv.GetRecords<T>().ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                MessageBox.Show(Application.Current.MainWindow, "输入文件格式有误！", e.Message);
+            }
             csv.Dispose();
             return result;
         }

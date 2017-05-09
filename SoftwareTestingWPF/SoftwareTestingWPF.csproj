@@ -96,14 +96,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="BabyBreakTabLayout.xaml.cs">
+      <DependentUpon>BabyBreakTabLayout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Base\AppBootstrapper.cs" />
     <Compile Include="Base\GeneralParser.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="Base\UIHelper.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="Mappers\BabyBreakCSV.cs" />
     <Compile Include="Mappers\ComputerMapper.cs" />
     <Compile Include="Mappers\DateMapper.cs" />
+    <Compile Include="Mappers\TelecomMapper.cs" />
     <Compile Include="Mappers\TriangleMapper.cs" />
+    <Compile Include="ProductProductionTabView.xaml.cs">
+      <DependentUpon>ProductProductionTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -111,11 +119,20 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ShellViewModel.cs" />
+    <Compile Include="TelecommunicationTabView.xaml.cs">
+      <DependentUpon>TelecommunicationTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TriangleTabLayout.xaml.cs">
       <DependentUpon>TriangleTabLayout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\FileUtils.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="View\BabyBreak\Left.xaml.cs">
+      <DependentUpon>Left.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BabyBreak\Right.xaml.cs">
+      <DependentUpon>Right.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Canander\CalanderLeftView.xaml.cs">
       <DependentUpon>CalanderLeftView.xaml</DependentUpon>
     </Compile>
@@ -137,12 +154,28 @@
     <Compile Include="View\Computer\ComputerRightView.xaml.cs">
       <DependentUpon>ComputerRightView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ProductProduction\Left.xaml.cs">
+      <DependentUpon>Left.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ProductProduction\Right.xaml.cs">
+      <DependentUpon>Right.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Telecommunication\TelecomLeftView.xaml.cs">
+      <DependentUpon>TelecomLeftView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Telecommunication\TelecomRightView.xaml.cs">
+      <DependentUpon>TelecomRightView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Triangle\TriangleLeftView.xaml.cs">
       <DependentUpon>TriangleLeftView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Triangle\TriangleRightView.xaml.cs">
       <DependentUpon>TriangleRightView.xaml</DependentUpon>
     </Compile>
+    <Page Include="BabyBreakTabLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CalanderTabLayout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -166,11 +199,27 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Page Include="ProductProductionTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TelecommunicationTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TriangleTabLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BabyBreak\Left.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BabyBreak\Right.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +251,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ProductProduction\Left.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ProductProduction\Right.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Telecommunication\TelecomLeftView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Telecommunication\TelecomRightView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Triangle\TriangleLeftView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -225,6 +290,12 @@
     <Resource Include="Resources\big.png" />
     <Resource Include="Resources\mo.png" />
     <Resource Include="Resources\Monitor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\中国电信.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\中国电信bg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
