@@ -35,6 +35,32 @@ namespace SoftwareTestingWPF
             }
         }
 
+        public ICommand BatchCalculateProductCommand
+        {
+            get
+            {
+                return new RelayCommand(BatchCalculateProduct, CanDoParse);
+            }
+        }
+
+        void BatchCalculateProduct(object e)
+        {
+            var filePath = GetInputCurWindowFilePath();
+            if (null == filePath) return;
+            InitReportVisuals();
+            var dataList = FileUtils<ProductionProductCSV>.ReadDateList(filePath);
+            if (null != dataList)
+            {
+                CountControl.SetTotal(dataList.Count);
+                int trueCnt = 0, falseCnt = 0;
+
+                foreach (var babyBreakCsv in dataList)
+                {
+
+                }
+            }
+        }
+
         void BatchCalculateBabyBreak(object sender)
         {
             var filePath = GetInputCurWindowFilePath();
@@ -69,7 +95,7 @@ namespace SoftwareTestingWPF
                         falseCnt++;
                         babyBreakCsv.IsCorrect = "False";
                     }
-                    
+
                 }
                 CountControl.SetPassed(trueCnt);
                 CountControl.SetFailed(falseCnt);

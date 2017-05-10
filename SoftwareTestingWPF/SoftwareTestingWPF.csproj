@@ -107,6 +107,7 @@
     <Compile Include="Mappers\BabyBreakCSV.cs" />
     <Compile Include="Mappers\ComputerMapper.cs" />
     <Compile Include="Mappers\DateMapper.cs" />
+    <Compile Include="Mappers\ProductionProductCSV.cs" />
     <Compile Include="Mappers\TelecomMapper.cs" />
     <Compile Include="Mappers\TriangleMapper.cs" />
     <Compile Include="ProductProductionTabView.xaml.cs">

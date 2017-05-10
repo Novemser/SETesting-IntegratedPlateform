@@ -1,0 +1,12 @@
+Id,场景,销售合同订单量,库存满足销售需求,库存量,生产库存量,库存满足生产需求,生产质检合格,废品,采购质检合格,货已发完,预期结果
+1,一：库存不满足、零部件不满足、质检及生产全部合格,1500,FALSE,1000,1000,FALSE,TRUE,FALSE,TRUE,TRUE,合同结案
+2,二：库存满足、货已发完,1500,TRUE,3000,-1,FALSE,FALSE,FALSE,FALSE,TRUE,合同结案
+3,三：库存满足、货未发完,14500,TRUE,20000,-1,FALSE,FALSE,FALSE,FALSE,FALSE,发货直到合同结案
+4,四：库存有但不足、无需采购、质检合格,2000,FALSE,1000,3000,TRUE,TRUE,FALSE,FALSE,FALSE,合同结案
+5,五：库存有但不足、无需采购、质检不合格，为废品,2300,FALSE,999,9991,TRUE,FALSE,TRUE,FALSE,FALSE,重新计划需求至合同结案
+6,六：库存有但不足、无需采购、质检不合格，可返工,3102,FALSE,192,8172,TRUE,FALSE,FALSE,FALSE,FALSE,重新生产至合同结案
+7,七：库存有但不足、需要采购、采购质检合格,7631,FALSE,210,711,FALSE,FALSE,FALSE,TRUE,FALSE,合同结案
+8,八：库存有但不足、需要采购、采购质检不合格,7721,FALSE,123,1821,FALSE,FALSE,FALSE,FALSE,FALSE,重新采购至合同结案
+9,九：无销售库存、生产库存满足,999,FALSE,0,1200,TRUE,FALSE,FALSE,FALSE,FALSE,合同结案
+10,无销售库存、生产库存不满足、质检合格,8172,FALSE,0,10020,FALSE,FALSE,FALSE,TRUE,FALSE,合同结案
+11,无销售库存、生产库存不满足、质检不合格,991,FALSE,0,1002,FALSE,FALSE,FALSE,FALSE,FALSE,重新采购至合同结案
