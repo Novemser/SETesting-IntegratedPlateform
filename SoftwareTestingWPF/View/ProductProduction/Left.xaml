@@ -6,7 +6,40 @@
              xmlns:local="clr-namespace:SoftwareTestingWPF.View.ProductProduction"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+    <Grid Style="{StaticResource ContentRoot}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Margin="4" VerticalAlignment="Center">销售合同订单量</Label>
+                <Label Margin="4" VerticalAlignment="Center" Grid.Row="1">库存量</Label>
+                <Label Margin="4" VerticalAlignment="Center" Grid.Row="2">生产库存量</Label>
+                <TextBox Margin="4" Width="72" Text="{Binding TotalRequired}" Grid.Row="0" Grid.Column="1"></TextBox>
+                <TextBox Margin="4" Text="{Binding InStockReady}" Grid.Row="1" Grid.Column="1"></TextBox>
+                <TextBox Margin="4" Text="{Binding InStockProduct}" Grid.Row="2" Grid.Column="1"></TextBox>
+            </Grid>
+            <Separator/>
+            <CheckBox Margin="4" IsChecked="{Binding IsProductQualified}">生产质检合格</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding IsRubbish}">出现废品</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding IsPurchaseQualified}">采购质检合格</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding IsProductDelivered}">货物已发完</CheckBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="24">
+            <Button Command="{Binding CalculateProductProductionCommand}">点击计算结果</Button>
+            <TextBlock Margin="4" Text="{Binding ProductProductionResult}" HorizontalAlignment="Center"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -6,7 +6,23 @@
              xmlns:local="clr-namespace:SoftwareTestingWPF.View.BabyBreak"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+    <Grid Style="{StaticResource ContentRoot}">
+       <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+       </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+            <CheckBox Margin="4" IsChecked="{Binding IsFemale}">女员工</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding LateMarry}">晚婚</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding LateBreed}">晚育</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding Less7}">怀孕不满7个月小产</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding Dystocia}">医院证明难产</CheckBox>
+            <CheckBox Margin="4" IsChecked="{Binding Less30}">医生确定小产后的产假天数&lt;=30天</CheckBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="24">
+            <Button Command="{Binding CalculateBabyBreakCommand}">点击计算产假天数</Button>
+            <TextBlock Margin="4" Text="{Binding BabyBreakDays}" HorizontalAlignment="Center"></TextBlock>
+        </StackPanel>
     </Grid>
 </UserControl>

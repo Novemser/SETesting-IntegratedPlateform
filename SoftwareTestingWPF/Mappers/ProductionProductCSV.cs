@@ -21,6 +21,7 @@ namespace SoftwareTestingWPF.Mappers
         public bool 采购质检合格 { get; set; }
         public bool 货已发完 { get; set; }
         public string 预期结果 { get; set; }
+        public string 实际结果 { get; set; }
 
     }
 }
