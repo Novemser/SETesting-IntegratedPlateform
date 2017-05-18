@@ -747,6 +747,7 @@ namespace SoftwareTestingWPF
 
         private void CalculateTotal(object sender)
         {
+            sellComputerBatchFlag = false;
             var res = GetSumStr(OutLet, MainFrame, Monitor);
             if (res[0].Equals("-1"))
                 TotalSaleVal = res[1];
@@ -754,22 +755,29 @@ namespace SoftwareTestingWPF
                 TotalSaleVal = res[0];
         }
 
+        private int TotalOL = 0;
+        private int TotalMF = 0;
+        private int TotalMT = 0;
+        private int dayCount;
+
         private string[] GetSumStr(int OutLet, int MainFrame, int Monitor)
         {
             var sb = new StringBuilder();
             var result = new string[2];
-            if (OutLet < 1)
+
+            if (OutLet < 1 && OutLet != -1)
                 sb.Append("外设数量<1  ");
             if (OutLet > 90)
                 sb.Append("外设数量>90  ");
-            if (MainFrame < 1)
+            if (MainFrame < 1 && MainFrame != -1)
                 sb.Append("主机数量<1  ");
             if (MainFrame > 70)
                 sb.Append("主机数量>70  ");
-            if (Monitor < 1)
+            if (Monitor < 1 && Monitor != -1)
                 sb.Append("显示器数量<1  ");
             if (Monitor > 80)
                 sb.Append("显示器数量>80  ");
+
             if (sb.Length > 2)
             {
                 result[0] = (-1).ToString();
@@ -777,8 +785,33 @@ namespace SoftwareTestingWPF
                 return result;
             }
 
-            long sum = 25 * OutLet + 45 * MainFrame + 30 * Monitor;
+            dayCount++;
+            bool isOver = false;
+            if (OutLet == -1 || MainFrame == -1 || Monitor == -1)
+            {
+                isOver = true;
+                OutLet = OutLet == -1 ? 0 : OutLet;
+                MainFrame = MainFrame == -1 ? 0 : MainFrame;
+                Monitor = Monitor == -1 ? 0 : Monitor;
+            }
+
+            TotalOL += OutLet;
+            TotalMF += MainFrame;
+            TotalMT += Monitor;
+
+
+
+            long sum = 25 * TotalOL + 45 * TotalMF + 30 * TotalMT;
             result[0] = sum + "$";
+
+            if (isOver)
+            {
+                if (!sellComputerBatchFlag)
+                {
+                    MessageBox.Show("人员离职！共销售" + dayCount + "天；销售额" + result[0], "结束本月计算", MessageBoxButton.OK);
+                }
+                dayCount = TotalMF = TotalOL = TotalMT = 0;
+            }
             return result;
         }
 
@@ -794,6 +827,7 @@ namespace SoftwareTestingWPF
             fileDialog.Filter = "csv file|*.csv";
             if (fileDialog.ShowDialog() == true)
             {
+                sellComputerBatchFlag = true;
                 var dataList = FileUtils<ComputerMapper>.ReadDateList(fileDialog.FileName);
                 if (null != dataList)
                 {
@@ -832,6 +866,7 @@ namespace SoftwareTestingWPF
             }
         }
 
+        private bool sellComputerBatchFlag;
         private void DoBatchParse(object parameter)
         {
             var fileDialog = new OpenFileDialog();
